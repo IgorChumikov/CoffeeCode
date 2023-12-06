@@ -11,8 +11,9 @@ struct NeedSpecialCoffeeIntent: AppIntent {
     static var title: LocalizedStringResource = "Special Coffee Order"
     static var openAppWhenRun: Bool = true
 
-    @Parameter(title: "Coffee Type")
-    var coffeeType: String
+    @Parameter(title: "Coffee Type",
+               requestValueDialog: IntentDialog("What kind of coffee would you like?"))
+        var coffeeType: String
 
     func perform() async throws -> some IntentResult {
         UserDefaults.standard.set(coffeeType, forKey: "SavedCoffeeType")

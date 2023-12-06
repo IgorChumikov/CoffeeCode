@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    // @AppStorage автоматически обновит связанную переменную, и интерфейс отобразит новые данные.
     @AppStorage("SavedCoffeeType") private var coffeeType: String = "Coffee Code"
+    
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         VStack {
@@ -18,6 +21,13 @@ struct ContentView: View {
             Text(coffeeType)
         }
         .padding()
+        //  очистить UserDefaults, когда приложение переходит в фоновый режим или закрывается.
+        .onChange(of: scenePhase) { newPhase in
+                  if newPhase == .background {
+                      print("App is in background")
+                      UserDefaults.standard.removeObject(forKey: "SavedCoffeeType")
+                  }
+              }
     }
 }
 
